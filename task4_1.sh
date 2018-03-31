@@ -11,7 +11,8 @@
 #
 # Usage: task4_1.sh
 #
-exec 1>task4_1.out
+
+exec 1>"${0%.sh}.out"
 
 echo '--- Hardware ---'
 
