@@ -14,9 +14,10 @@
 
 exec 1>"${0%.sh}.out"
 
-# install the lsb package
+# install lsb-release and dmidecode packages
 test "$(whoami)" = 'root' &>/dev/null && {
    type lsb_release &>/dev/null || apt-get -y install lsb-release &>/dev/null
+   type dmidecode &>/dev/null || apt-get -y install dmidecode &>/dev/null
 }
 
 echo '--- Hardware ---'
