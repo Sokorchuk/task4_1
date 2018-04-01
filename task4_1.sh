@@ -28,7 +28,7 @@ if dmidecode &>/dev/null; then # root mode
       MemTotal=0;
    }
    (($1 == "Size:") && ($2 ~ /[0-9]+/) && ($3 == "MB")) {
-      MemTotal =+ $2;
+      MemTotal += $2;
    }
    END {
       if (MemTotal > 0) print "RAM:", MemTotal, "MB";
