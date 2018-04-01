@@ -130,11 +130,11 @@ BEGIN {
 
 /^[0-9]+/ {
    IfaceName = $2;
-   ifaceAddr[IfaceName] = "--";
+   ifaceAddr[IfaceName] = "-";
    }
 
 $1 == "inet" {
-   if (ifaceAddr[IfaceName] == "--") {
+   if (ifaceAddr[IfaceName] == "-") {
       ifaceAddr[IfaceName] = $2;
    } else {
       ifaceAddr[IfaceName] = ifaceAddr[IfaceName] ", " $2;
@@ -149,5 +149,5 @@ END {
       }
    }
 #'
-
+#
 # exit :)
