@@ -14,13 +14,18 @@
 
 exec 1>"${0%.sh}.out"
 
+# install the lsb package
+test "$(whoami)" = 'root' &>/dev/null && {
+   type lsb_release &>/dev/null || apt-get -y install lsb-release &>/dev/null
+}
+
 echo '--- Hardware ---'
 
 if dmidecode &>/dev/null; then # root mode
 
    # CPU: Intel xeon 2675
-   cpu_version=$(dmidecode -s processor-version 2>/dev/null)
-   echo "CPU: ${cpu_version:=Unknown}"
+   read cpu_version <<< $(dmidecode -s processor-version 2>/dev/null | head -n 1)
+   echo "CPU: $cpu_version"
 
    # RAM: xxxx 
    dmidecode -t 17 2>/dev/null | awk '#
@@ -92,8 +97,8 @@ read etc etc install_date <<< $(dumpe2fs $(mount | grep 'on / ' | awk '{print $1
 echo "Installation date: $install_date"
 
 # Hostname: yyyyy
-echo -n 'Hostname: '
-uname -n
+hostname=$(uname -n)
+echo "Hostname: ${hostname:-Unknown}"
 
 IFS=',' read -r -a uptime_arr <<< "$(uptime)"
 uptime_str="${uptime_arr[0]##* up}"
@@ -144,3 +149,4 @@ END {
    }
 #'
 
+# exit :)
